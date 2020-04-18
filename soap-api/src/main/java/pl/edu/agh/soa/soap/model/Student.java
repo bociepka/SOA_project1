@@ -15,6 +15,16 @@ public class Student {
     private String avatarPath = "defaultAvatar.jpg";
     private List<String> courses;
 
+    @Override
+    public String toString() {
+        String result = String.format("%s %d %d",name, id, age, courses);
+        for (String s : courses){
+            result += s;
+            result +=" ";
+        }
+        return result;
+    }
+
     public Student() {
     }
 

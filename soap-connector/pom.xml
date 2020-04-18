@@ -97,6 +97,117 @@
             <scope>test</scope>               
         </dependency>
 
+        <!-- Declare the APIs we depend on and need for compilation. All of
+            them are provided by JBoss WildFly -->
+
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss WildFly -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss WildFly -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JSR-303 (Bean Validation) Implementation -->
+        <!-- Provides portable constraints such as @Email -->
+        <!-- Hibernate Validator is shipped in JBoss WildFly -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <!-- Test scope dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-ri</artifactId>
+            <version>2.3.0</version>
+            <type>pom</type>
+        </dependency>
+
+
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
+        <!-- Optional, but highly recommended -->
+        <!-- Arquillian allows you to test enterprise code such as EJBs and
+            Transactional(JTA) JPA from JUnit/TestNG -->
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Authorization -->
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-annotations-ejb3</artifactId>
+            <version>4.2.2.GA</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.ws</groupId>
+            <artifactId>jbossws-api</artifactId>
+            <version>1.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -108,6 +219,29 @@
                 <configuration>
                     <!-- Tell Maven we are using EJB 3.1 -->
                     <ejbVersion>3.1</ejbVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>wsimport-from-jdk</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <wsdlUrls>
+                        <wsdlUrl>
+                            http://localhost:8080/soa/studentService?wsdl
+                        </wsdlUrl>
+                    </wsdlUrls>
+                    <keep>true</keep>
+                    <packageName>pl.edu.agh.soa</packageName>
+                    <sourceDestDir>src/main/java</sourceDestDir>
                 </configuration>
             </plugin>
         </plugins>

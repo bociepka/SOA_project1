@@ -34,9 +34,9 @@
     </licenses>
     <modules>
         <module>soap-api</module>
-        <module>soap-connector</module>
         <module>lab1-web</module>
         <module>lab1-ear</module>
+        <module>soap-connector</module>
     </modules>
 
     <properties>

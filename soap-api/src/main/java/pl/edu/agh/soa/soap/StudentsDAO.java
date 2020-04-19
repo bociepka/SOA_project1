@@ -69,8 +69,12 @@ public class StudentsDAO {
     }
 
     public String addCourseToStudent(int id, String course){
-        getStudentById(id).getCourses().add(course);
-        return "Course added successfully";
+        if(getStudentById(id) != null) {
+            getStudentById(id).getCourses().add(course);
+            return "Course added successfully";
+        }
+        else
+            return "Student does not exist";
     }
 
     public String updateAvatar(int id, String avatarPath){

@@ -7,21 +7,39 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
 public class Client {
 
     public static void main(String[] args){
         StudentService studentService = new StudentServiceService().getStudentServicePort();
         setCredentials((BindingProvider) studentService);
+        System.out.println("Wszyscy studenci:");
         listAllStudents(studentService);
-        getAvatarById(studentService, 1);
+        addStudent(studentService, "Adam", 333, 33);
+        System.out.println("Wszyscy studenci (po dodaniu nowego):");
+        listAllStudents(studentService);
+        getAvatarById(studentService, studentService.getAllStudents().getItem().get(0).getId());
     }
 
     private static void listAllStudents(StudentService studentService) {
-        for(Student student : studentService.getAllStudents().getItem())
-            System.out.println(student.getName()+", "+student.getAge());
+        System.out.println("id, imię, wiek, przedmioty");
+        for(Student student : studentService.getAllStudents().getItem()) {
+            System.out.print(student.getId() + ", " + student.getName() + ", lat " + student.getAge() + ", ");
+            if (student.getCourses() != null){
+                System.out.print(student.getCourses().getCourse()+"\n");
+            }
+            else{
+                System.out.println("BRAK");
+            }
+        }
+    }
+
+    private static void addStudent(StudentService studentService, String name, int id, int age){
+        studentService.addStudent(id, name, age);
     }
 
     private static void getAvatarById(StudentService studentService, int id){

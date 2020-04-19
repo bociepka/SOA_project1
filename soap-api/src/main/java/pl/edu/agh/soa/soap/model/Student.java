@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 
-@XmlType(propOrder={"name","age","avatarPath","courses"})
+@XmlType(propOrder={"id","name","age","avatarPath","courses"})
 public class Student {
 
     private String name;
@@ -15,15 +15,15 @@ public class Student {
     private String avatarPath = "defaultAvatar.jpg";
     private List<String> courses;
 
-    @Override
-    public String toString() {
-        String result = String.format("%s %d %d",name, id, age, courses);
-        for (String s : courses){
-            result += s;
-            result +=" ";
-        }
-        return result;
-    }
+//    @Override
+//    public String toString() {
+//        String result = String.format("%s %d %d",name, id, age, courses);
+//        for (String s : courses){
+//            result += s;
+//            result +=" ";
+//        }
+//        return result;
+//    }
 
     public Student() {
     }
@@ -32,6 +32,10 @@ public class Student {
         this.name = name;
         this.id = id;
         this.age = age;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Student(String name, int id, int age, List<String> courses) {

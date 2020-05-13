@@ -3,7 +3,8 @@ package pl.edu.agh.soa.soap;
 //import org.apache.commons.codec.binary.Base64;
 import org.jboss.annotation.security.SecurityDomain;
 import org.jboss.ws.api.annotation.WebContext;
-import pl.edu.agh.soa.soap.model.Student;
+import pl.edu.agh.soa.model.Student;
+import pl.edu.agh.soa.model.StudentsDAO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,8 +18,6 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.*;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.List;
 
 

@@ -3,7 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lab1-ear" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lab1-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lab1-model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rest-api" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/soap-api" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/soap-connector" charset="UTF-8" />
   </component>

@@ -1,6 +1,4 @@
-package pl.edu.agh.soa.soap;
-
-import pl.edu.agh.soa.soap.model.Student;
+package pl.edu.agh.soa.model;
 
 import java.util.ArrayList;
 import java.util.List;

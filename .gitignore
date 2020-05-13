@@ -1,5 +1,5 @@
 # Project exclude paths
 /lab1-ear/target/
-/lab1-web/target/
+/rest-api/target/
 /soap-api/target/
 /soap-connector/target/

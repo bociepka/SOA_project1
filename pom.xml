@@ -33,8 +33,9 @@
         </license>
     </licenses>
     <modules>
+        <module>lab1-model</module>
         <module>soap-api</module>
-        <module>lab1-web</module>
+        <module>rest-api</module>
         <module>lab1-ear</module>
         <module>soap-connector</module>
     </modules>
@@ -74,6 +75,12 @@
                 to repeat ourselves in every module -->
             <dependency>
                 <groupId>pl.edu.agh.soa.lab1</groupId>
+                <artifactId>lab1-model</artifactId>
+                <version>${project.version}</version>
+                <type>ejb</type>
+            </dependency>
+            <dependency>
+                <groupId>pl.edu.agh.soa.lab1</groupId>
                 <artifactId>soap-api</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
@@ -91,7 +98,7 @@
                 ourselves in every module -->
             <dependency>
                 <groupId>pl.edu.agh.soa.lab1</groupId>
-                <artifactId>lab1-web</artifactId>
+                <artifactId>rest-api</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>

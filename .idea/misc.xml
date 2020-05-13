@@ -5,7 +5,7 @@
     <file type="ejb" url="file://$PROJECT_DIR$/soap-api" />
     <file type="ejb" url="file://$PROJECT_DIR$/soap-connector" />
     <file type="javaeeApplication" url="file://$PROJECT_DIR$/lab1-ear" />
-    <file type="web" url="file://$PROJECT_DIR$/lab1-web" />
+    <file type="web" url="file://$PROJECT_DIR$/rest-api" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

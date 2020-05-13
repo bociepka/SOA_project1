@@ -25,7 +25,7 @@
       <version>1.0</version>
    </parent>
 
-   <artifactId>lab1-web</artifactId>
+   <artifactId>rest-api</artifactId>
    <packaging>war</packaging>
 
    <name>lab1: WAR Module</name>

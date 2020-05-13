@@ -25,7 +25,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>bociepka-zad1</artifactId>
+    <artifactId>bociepka-zad2</artifactId>
     <packaging>ear</packaging>
 
     <name>lab1: EAR Module</name>
@@ -44,7 +44,7 @@
         <!-- Depend on the ejb module and war so that we can package them -->
         <dependency>
             <groupId>pl.edu.agh.soa.lab1</groupId>
-            <artifactId>lab1-web</artifactId>
+            <artifactId>rest-api</artifactId>
             <type>war</type>
         </dependency>
         <dependency>

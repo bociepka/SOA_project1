@@ -57,7 +57,7 @@ public class Student {
     }
 
     @XmlElementWrapper(name = "courses")
-    @XmlElement(name = "course")
+    @XmlElement(name = "courses")
     public List<String> getCourses() {
         return courses;
     }

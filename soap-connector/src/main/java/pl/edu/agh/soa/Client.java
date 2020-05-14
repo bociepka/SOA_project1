@@ -30,7 +30,7 @@ public class Client {
         for(Student student : studentService.getAllStudents().getItem()) {
             System.out.print(student.getId() + ", " + student.getName() + ", lat " + student.getAge() + ", ");
             if (student.getCourses() != null){
-                System.out.print(student.getCourses().getCourse()+"\n");
+                System.out.print(student.getCourses().courses+"\n");
             }
             else{
                 System.out.println("BRAK");

@@ -1,6 +1,7 @@
 package pl.edu.agh.soa.api;
 
 import io.swagger.annotations.*;
+import pl.edu.agh.soa.auth.JWTTokenNeeded;
 import pl.edu.agh.soa.model.Student;
 import pl.edu.agh.soa.model.StudentsDAO;
 
@@ -69,6 +70,7 @@ public class StudentRestService {
 
     @POST
     @Path("/")
+    @JWTTokenNeeded
     @ApiOperation("Adds student to the database")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Student added")  ,
@@ -87,6 +89,8 @@ public class StudentRestService {
     }
 
     @PUT
+    @Path("/{id}")
+    @JWTTokenNeeded
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation("Updates student with given id")
@@ -94,7 +98,6 @@ public class StudentRestService {
             @ApiResponse(code = 200, message = "Student updated")  ,
             @ApiResponse(code = 404, message = "Student with given id does not exist")
     })
-    @Path("/{id}")
     public Response updateStudent(@ApiParam(required=true) @PathParam("id") int id, @ApiParam(required=true, name = "New Student") Student student){
         try {
             myDAO.updateStudent(id, student);
@@ -105,12 +108,13 @@ public class StudentRestService {
     }
 
     @DELETE
+    @Path("/{id}")
+    @JWTTokenNeeded
     @ApiOperation("Updates student with given id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Student deleted")  ,
             @ApiResponse(code = 404, message = "Student with given id does not exist")
     })
-    @Path("/{id}")
     public Response deleteStudent(@ApiParam(required=true) @PathParam("id") int id) {
         myDAO.removeStudentById(id);
         return Response.status(Response.Status.OK).build();

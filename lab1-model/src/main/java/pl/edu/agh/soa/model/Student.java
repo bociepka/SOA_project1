@@ -81,4 +81,16 @@ public class Student {
     public void setAge(int age) {
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        String result = this.getId() + ", " + this.getName() + ", lat " + this.getAge() + ", ";
+        if (this.getCourses() != null){
+            result += this.getCourses();
+        }
+//        else{
+//            result += "";
+//        }
+        return result;
+    }
 }

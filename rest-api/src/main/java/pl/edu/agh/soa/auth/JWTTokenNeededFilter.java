@@ -29,7 +29,6 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
         // Get the HTTP Authorization header from the request
         try {
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 
         // Extract the token from the HTTP Authorization header
         String token = authorizationHeader.substring("token".length()).trim();

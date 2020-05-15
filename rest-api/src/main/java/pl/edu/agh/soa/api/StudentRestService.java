@@ -7,6 +7,9 @@ import pl.edu.agh.soa.model.StudentsDAO;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +71,7 @@ public class StudentRestService {
     @Path("/")
     @ApiOperation("Adds student to the database")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Student added")  ,
+            @ApiResponse(code = 201, message = "Student added")  ,
             @ApiResponse(code = 409, message = "Student with the same id already exists")
     })
     @Consumes(MediaType.APPLICATION_JSON)
@@ -77,9 +80,64 @@ public class StudentRestService {
 
             try {
                 myDAO.addStudent(student);
-                return Response.status(Response.Status.OK).build();
+                return Response.status(Response.Status.CREATED).build();
             }catch (Exception e){
                 return Response.status(Response.Status.CONFLICT).build();
             }
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation("Updates student with given id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Student updated")  ,
+            @ApiResponse(code = 404, message = "Student with given id does not exist")
+    })
+    @Path("/{id}")
+    public Response updateStudent(@ApiParam(required=true) @PathParam("id") int id, @ApiParam(required=true, name = "New Student") Student student){
+        try {
+            myDAO.updateStudent(id, student);
+            return Response.status(Response.Status.OK).build();
+        }catch (Exception e){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    @DELETE
+    @ApiOperation("Updates student with given id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Student deleted")  ,
+            @ApiResponse(code = 404, message = "Student with given id does not exist")
+    })
+    @Path("/{id}")
+    public Response deleteStudent(@ApiParam(required=true) @PathParam("id") int id) {
+        myDAO.removeStudentById(id);
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Produces("image/jpeg")
+    @Path("/{id}/avatar")
+    @ApiOperation("Returns avatar of student with given ID")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Student found, avatar returned")  ,
+            @ApiResponse(code = 404, message = "Student with given id not found") ,
+            @ApiResponse(code = 500, message = "Something went wrong during loading the image, try again later")
+    })
+    public Response getAvatarById(@ApiParam(required=true) @PathParam("id") int id) {
+        Student student = myDAO.getStudentById(id);
+        if(student ==  null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+        Object result;
+        URL resource = getClass().getClassLoader().getResource(student.getAvatarPath());
+        try {
+            byte[] bytes = new byte[resource.openConnection().getContentLength()];
+            resource.openStream().read(bytes);
+            result = bytes;
+        } catch (IOException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+        return Response.status(Response.Status.OK).entity(result).build();
     }
 }

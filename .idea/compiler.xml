@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="lab1-model" />
         <module name="soap-connector" />
         <module name="rest-api" />
-        <module name="soap-api" />
+        <module name="lab1-model" />
         <module name="lab1-ear" />
+        <module name="soap-api" />
       </profile>
     </annotationProcessing>
   </component>

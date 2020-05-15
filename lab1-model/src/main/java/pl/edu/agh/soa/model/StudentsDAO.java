@@ -80,6 +80,18 @@ public class StudentsDAO {
         return "Avatar Changed Successfully";
     }
 
+    public Student updateStudent(int id, Student student) throws Exception{
+        if (getStudentById(id) == null){
+            throw new Exception("Student does not exist");
+        }
+        else{
+            updateStudentById(id, student.getName(), student.getAge());
+            updateAvatar(id, student.getAvatarPath());
+            getStudentById(id).setCourses(student.getCourses());
+        }
+        return student;
+    }
+
 
     public StudentsDAO populateListWithDefaultData(){
         ArrayList<String> courses = new ArrayList<>();

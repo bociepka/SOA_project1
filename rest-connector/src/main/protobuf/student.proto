@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package pl.edu.agh.soa;
+option java_package = "pl.edu.agh.soa.model";
+option java_outer_classname = "StudentProto";
+
+message Student{
+    string name = 2;
+    int32 id = 1;
+    int32 age = 3;
+    string avatarPath = 4;
+    string courses = 5;
+}

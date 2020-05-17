@@ -5,15 +5,15 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.specimpl.MultivaluedMapImpl;
 import pl.edu.agh.soa.model.Student;
+import pl.edu.agh.soa.model.StudentProto;
+import pl.edu.agh.soa.protobuf.StudentMessageWriter;
 
 import javax.swing.*;
-import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class RESTClient {
 
@@ -81,6 +81,20 @@ public class RESTClient {
         int responseStatus = response.getStatus();
         if(responseStatus == 200) {
             result = response.readEntity(Student.class);
+        }
+        response.close();
+        System.out.println("RESPONSE STATUS: "+responseStatus);
+        return result;
+    }
+
+    private StudentProto.Student getStudentByIdProto(int id){
+        StudentProto.Student result = null;
+        ResteasyWebTarget target = resteasyClient.target("http://localhost:8080/rest-api/api/students/"+id+"/protobuf").register(StudentMessageWriter.class);
+        System.out.println("Getting student with id "+id+"(ProtoBuf)");
+        Response response = target.request().get();
+        int responseStatus = response.getStatus();
+        if(responseStatus == 200) {
+            result = response.readEntity(StudentProto.Student.class);
         }
         response.close();
         System.out.println("RESPONSE STATUS: "+responseStatus);
@@ -170,6 +184,11 @@ public class RESTClient {
         //deleting previously added student
         System.out.println("\n");
         consumer.removeStudent(6);
+
+
+        //getting student in ProtoBuf
+        System.out.println("\n");
+        System.out.println(consumer.getStudentByIdProto(2));
 
         consumer.endSession();
     }

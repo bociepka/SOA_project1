@@ -9,5 +9,5 @@ message Student{
     int32 id = 1;
     int32 age = 3;
     string avatarPath = 4;
-    string courses = 5;
+    repeated string courses = 5;
 }

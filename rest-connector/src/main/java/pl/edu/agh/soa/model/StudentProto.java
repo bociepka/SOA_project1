@@ -55,16 +55,29 @@ public final class StudentProto {
         getAvatarPathBytes();
 
     /**
-     * <code>string courses = 5;</code>
-     * @return The courses.
+     * <code>repeated string courses = 5;</code>
+     * @return A list containing the courses.
      */
-    java.lang.String getCourses();
+    java.util.List<java.lang.String>
+        getCoursesList();
     /**
-     * <code>string courses = 5;</code>
-     * @return The bytes for courses.
+     * <code>repeated string courses = 5;</code>
+     * @return The count of courses.
+     */
+    int getCoursesCount();
+    /**
+     * <code>repeated string courses = 5;</code>
+     * @param index The index of the element to return.
+     * @return The courses at the given index.
+     */
+    java.lang.String getCourses(int index);
+    /**
+     * <code>repeated string courses = 5;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the courses at the given index.
      */
     com.google.protobuf.ByteString
-        getCoursesBytes();
+        getCoursesBytes(int index);
   }
   /**
    * Protobuf type {@code pl.edu.agh.soa.Student}
@@ -81,7 +94,7 @@ public final class StudentProto {
     private Student() {
       name_ = "";
       avatarPath_ = "";
-      courses_ = "";
+      courses_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -104,6 +117,7 @@ public final class StudentProto {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -138,8 +152,11 @@ public final class StudentProto {
             }
             case 42: {
               java.lang.String s = input.readStringRequireUtf8();
-
-              courses_ = s;
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                courses_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              courses_.add(s);
               break;
             }
             default: {
@@ -157,6 +174,9 @@ public final class StudentProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          courses_ = courses_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -267,39 +287,38 @@ public final class StudentProto {
     }
 
     public static final int COURSES_FIELD_NUMBER = 5;
-    private volatile java.lang.Object courses_;
+    private com.google.protobuf.LazyStringList courses_;
     /**
-     * <code>string courses = 5;</code>
-     * @return The courses.
+     * <code>repeated string courses = 5;</code>
+     * @return A list containing the courses.
      */
-    public java.lang.String getCourses() {
-      java.lang.Object ref = courses_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        courses_ = s;
-        return s;
-      }
+    public com.google.protobuf.ProtocolStringList
+        getCoursesList() {
+      return courses_;
     }
     /**
-     * <code>string courses = 5;</code>
-     * @return The bytes for courses.
+     * <code>repeated string courses = 5;</code>
+     * @return The count of courses.
+     */
+    public int getCoursesCount() {
+      return courses_.size();
+    }
+    /**
+     * <code>repeated string courses = 5;</code>
+     * @param index The index of the element to return.
+     * @return The courses at the given index.
+     */
+    public java.lang.String getCourses(int index) {
+      return courses_.get(index);
+    }
+    /**
+     * <code>repeated string courses = 5;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the courses at the given index.
      */
     public com.google.protobuf.ByteString
-        getCoursesBytes() {
-      java.lang.Object ref = courses_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        courses_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getCoursesBytes(int index) {
+      return courses_.getByteString(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -328,8 +347,8 @@ public final class StudentProto {
       if (!getAvatarPathBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, avatarPath_);
       }
-      if (!getCoursesBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, courses_);
+      for (int i = 0; i < courses_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, courses_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -354,8 +373,13 @@ public final class StudentProto {
       if (!getAvatarPathBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, avatarPath_);
       }
-      if (!getCoursesBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, courses_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < courses_.size(); i++) {
+          dataSize += computeStringSizeNoTag(courses_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getCoursesList().size();
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -380,8 +404,8 @@ public final class StudentProto {
           != other.getAge()) return false;
       if (!getAvatarPath()
           .equals(other.getAvatarPath())) return false;
-      if (!getCourses()
-          .equals(other.getCourses())) return false;
+      if (!getCoursesList()
+          .equals(other.getCoursesList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -401,8 +425,10 @@ public final class StudentProto {
       hash = (53 * hash) + getAge();
       hash = (37 * hash) + AVATARPATH_FIELD_NUMBER;
       hash = (53 * hash) + getAvatarPath().hashCode();
-      hash = (37 * hash) + COURSES_FIELD_NUMBER;
-      hash = (53 * hash) + getCourses().hashCode();
+      if (getCoursesCount() > 0) {
+        hash = (37 * hash) + COURSES_FIELD_NUMBER;
+        hash = (53 * hash) + getCoursesList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -544,8 +570,8 @@ public final class StudentProto {
 
         avatarPath_ = "";
 
-        courses_ = "";
-
+        courses_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -572,10 +598,15 @@ public final class StudentProto {
       @java.lang.Override
       public pl.edu.agh.soa.model.StudentProto.Student buildPartial() {
         pl.edu.agh.soa.model.StudentProto.Student result = new pl.edu.agh.soa.model.StudentProto.Student(this);
+        int from_bitField0_ = bitField0_;
         result.name_ = name_;
         result.id_ = id_;
         result.age_ = age_;
         result.avatarPath_ = avatarPath_;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          courses_ = courses_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
         result.courses_ = courses_;
         onBuilt();
         return result;
@@ -639,8 +670,14 @@ public final class StudentProto {
           avatarPath_ = other.avatarPath_;
           onChanged();
         }
-        if (!other.getCourses().isEmpty()) {
-          courses_ = other.courses_;
+        if (!other.courses_.isEmpty()) {
+          if (courses_.isEmpty()) {
+            courses_ = other.courses_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureCoursesIsMutable();
+            courses_.addAll(other.courses_);
+          }
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -671,6 +708,7 @@ public final class StudentProto {
         }
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object name_ = "";
       /**
@@ -884,78 +922,112 @@ public final class StudentProto {
         return this;
       }
 
-      private java.lang.Object courses_ = "";
-      /**
-       * <code>string courses = 5;</code>
-       * @return The courses.
-       */
-      public java.lang.String getCourses() {
-        java.lang.Object ref = courses_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          courses_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      private com.google.protobuf.LazyStringList courses_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureCoursesIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          courses_ = new com.google.protobuf.LazyStringArrayList(courses_);
+          bitField0_ |= 0x00000001;
+         }
       }
       /**
-       * <code>string courses = 5;</code>
-       * @return The bytes for courses.
+       * <code>repeated string courses = 5;</code>
+       * @return A list containing the courses.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getCoursesList() {
+        return courses_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string courses = 5;</code>
+       * @return The count of courses.
+       */
+      public int getCoursesCount() {
+        return courses_.size();
+      }
+      /**
+       * <code>repeated string courses = 5;</code>
+       * @param index The index of the element to return.
+       * @return The courses at the given index.
+       */
+      public java.lang.String getCourses(int index) {
+        return courses_.get(index);
+      }
+      /**
+       * <code>repeated string courses = 5;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the courses at the given index.
        */
       public com.google.protobuf.ByteString
-          getCoursesBytes() {
-        java.lang.Object ref = courses_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          courses_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+          getCoursesBytes(int index) {
+        return courses_.getByteString(index);
       }
       /**
-       * <code>string courses = 5;</code>
+       * <code>repeated string courses = 5;</code>
+       * @param index The index to set the value at.
        * @param value The courses to set.
        * @return This builder for chaining.
        */
       public Builder setCourses(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureCoursesIsMutable();
+        courses_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string courses = 5;</code>
+       * @param value The courses to add.
+       * @return This builder for chaining.
+       */
+      public Builder addCourses(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  
-        courses_ = value;
+  ensureCoursesIsMutable();
+        courses_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>string courses = 5;</code>
+       * <code>repeated string courses = 5;</code>
+       * @param values The courses to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllCourses(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureCoursesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, courses_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string courses = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearCourses() {
-        
-        courses_ = getDefaultInstance().getCourses();
+        courses_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
-       * <code>string courses = 5;</code>
-       * @param value The bytes for courses to set.
+       * <code>repeated string courses = 5;</code>
+       * @param value The bytes of the courses to add.
        * @return This builder for chaining.
        */
-      public Builder setCoursesBytes(
+      public Builder addCoursesBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
-        courses_ = value;
+        ensureCoursesIsMutable();
+        courses_.add(value);
         onChanged();
         return this;
       }
@@ -1028,7 +1100,7 @@ public final class StudentProto {
     java.lang.String[] descriptorData = {
       "\n\rstudent.proto\022\016pl.edu.agh.soa\"U\n\007Stude" +
       "nt\022\014\n\004name\030\002 \001(\t\022\n\n\002id\030\001 \001(\005\022\013\n\003age\030\003 \001(" +
-      "\005\022\022\n\navatarPath\030\004 \001(\t\022\017\n\007courses\030\005 \001(\tB$" +
+      "\005\022\022\n\navatarPath\030\004 \001(\t\022\017\n\007courses\030\005 \003(\tB$" +
       "\n\024pl.edu.agh.soa.modelB\014StudentProtob\006pr" +
       "oto3"
     };

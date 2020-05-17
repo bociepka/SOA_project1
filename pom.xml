@@ -34,11 +34,12 @@
     </licenses>
     <modules>
         <module>lab1-model</module>
+        <module>rest-connector</module>
         <module>soap-api</module>
-        <module>rest-api</module>
         <module>lab1-ear</module>
         <module>soap-connector</module>
-        <module>rest-connector</module>
+        <module>rest-api</module>
+
     </modules>
 
     <properties>

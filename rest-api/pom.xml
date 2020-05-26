@@ -121,6 +121,12 @@
                </exclusion>
            </exclusions>
        </dependency>
+      <dependency>
+         <groupId>pl.edu.agh.soa.lab1</groupId>
+         <artifactId>lab1-dao</artifactId>
+         <version>1.0</version>
+         <scope>compile</scope>
+      </dependency>
 
    </dependencies>
 

@@ -2,9 +2,11 @@ package pl.edu.agh.soa.api;
 
 import io.swagger.annotations.*;
 import pl.edu.agh.soa.auth.JWTTokenNeeded;
+import pl.edu.agh.soa.dao.StudentsDAO;
+import pl.edu.agh.soa.dao.StudentsDAOInterface;
 import pl.edu.agh.soa.model.Student;
 import pl.edu.agh.soa.model.StudentProto;
-import pl.edu.agh.soa.model.StudentsDAO;
+import pl.edu.agh.soa.dao.StudentsInMemoryDAO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,7 +20,8 @@ import java.util.stream.Collectors;
 @Api(value = "Students API")
 public class StudentRestService {
 
-    private static StudentsDAO myDAO = new StudentsDAO().populateListWithDefaultData();
+//    private static StudentsDAOInterface myDAO = new StudentsInMemoryDAO().populateListWithDefaultData();
+    private static StudentsDAOInterface myDAO = new StudentsDAO().populateListWithDefaultData();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

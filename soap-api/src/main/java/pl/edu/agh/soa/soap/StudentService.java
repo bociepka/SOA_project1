@@ -3,8 +3,9 @@ package pl.edu.agh.soa.soap;
 //import org.apache.commons.codec.binary.Base64;
 import org.jboss.annotation.security.SecurityDomain;
 import org.jboss.ws.api.annotation.WebContext;
+import pl.edu.agh.soa.dao.StudentsDAOInterface;
 import pl.edu.agh.soa.model.Student;
-import pl.edu.agh.soa.model.StudentsDAO;
+import pl.edu.agh.soa.dao.StudentsInMemoryDAO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,7 +30,7 @@ import java.util.List;
 @SOAPBinding(style = SOAPBinding.Style.RPC, use = SOAPBinding.Use.LITERAL)
 public class StudentService {
 
-    private StudentsDAO myDAO = new StudentsDAO().populateListWithDefaultData();
+    private StudentsDAOInterface myDAO = new StudentsInMemoryDAO().populateListWithDefaultData();
 
     @RolesAllowed("GrupaTestowa")
     @WebMethod(action = "getAllStudents")

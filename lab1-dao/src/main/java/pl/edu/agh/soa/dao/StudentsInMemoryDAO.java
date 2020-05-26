@@ -1,12 +1,13 @@
-package pl.edu.agh.soa.model;
+package pl.edu.agh.soa.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import pl.edu.agh.soa.model.Student;
 
-public class StudentsDAO {
+public class StudentsInMemoryDAO implements StudentsDAOInterface {
     private List<Student> studentsList;
 
-    public StudentsDAO() {
+    public StudentsInMemoryDAO() {
         studentsList = new ArrayList<Student>();
     }
 
@@ -93,7 +94,7 @@ public class StudentsDAO {
     }
 
 
-    public StudentsDAO populateListWithDefaultData(){
+    public StudentsInMemoryDAO populateListWithDefaultData(){
         ArrayList<String> courses = new ArrayList<>();
         courses.add("SOA");
         courses.add("Technologie Mobilne");

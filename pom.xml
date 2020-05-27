@@ -41,7 +41,6 @@
         <module>rest-api</module>
         <module>lab1-jpa</module>
         <module>lab1-dao</module>
-
     </modules>
 
     <properties>

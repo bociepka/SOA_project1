@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import pl.edu.agh.soa.model.Student;
 
-public class StudentsInMemoryDAO implements StudentsDAOInterface {
+public class StudentsInMemoryDAO {
     private List<Student> studentsList;
 
     public StudentsInMemoryDAO() {
@@ -107,6 +107,5 @@ public class StudentsInMemoryDAO implements StudentsDAOInterface {
         studentsList.add(new Student("Jacek", 5, 22, courses));
         return this;
     }
-
 
 }

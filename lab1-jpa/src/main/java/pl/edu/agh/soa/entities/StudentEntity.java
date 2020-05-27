@@ -6,7 +6,7 @@ import java.util.Set;
 
 
 @Entity
-@Table
+@Table(name = "students")
 public class StudentEntity {
 
     @Column
@@ -23,8 +23,8 @@ public class StudentEntity {
     private String avatarPath = "defaultAvatar.jpg";
 
 
-    @ManyToMany
-    @JoinTable
+    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable
     private Set<CourseEntity> courses;
 
     public String getName() {

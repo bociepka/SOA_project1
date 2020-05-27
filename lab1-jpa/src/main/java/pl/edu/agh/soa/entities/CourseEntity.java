@@ -1,22 +1,18 @@
 package pl.edu.agh.soa.entities;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.beans.ConstructorProperties;
 
 @Entity
-@Table
+@Table(name = "courses")
 public class CourseEntity {
 
 
     @Id
-    @Column
+    @GeneratedValue
     private int id;
 
-    @Column
     private String name;
 
     public int getId() {

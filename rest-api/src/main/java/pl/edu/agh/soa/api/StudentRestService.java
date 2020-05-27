@@ -3,11 +3,11 @@ package pl.edu.agh.soa.api;
 import io.swagger.annotations.*;
 import pl.edu.agh.soa.auth.JWTTokenNeeded;
 import pl.edu.agh.soa.dao.StudentsDAO;
-import pl.edu.agh.soa.dao.StudentsDAOInterface;
 import pl.edu.agh.soa.model.Student;
 import pl.edu.agh.soa.model.StudentProto;
 import pl.edu.agh.soa.dao.StudentsInMemoryDAO;
 
+import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,8 +20,9 @@ import java.util.stream.Collectors;
 @Api(value = "Students API")
 public class StudentRestService {
 
-//    private static StudentsDAOInterface myDAO = new StudentsInMemoryDAO().populateListWithDefaultData();
-    private static StudentsDAOInterface myDAO = new StudentsDAO().populateListWithDefaultData();
+//    private StudentsDAOInterface myDAO = new StudentsInMemoryDAO().populateListWithDefaultData();
+    @EJB
+    StudentsDAO myDAO;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -72,7 +73,7 @@ public class StudentRestService {
 
     @POST
     @Path("/")
-    @JWTTokenNeeded
+//    @JWTTokenNeeded
     @ApiOperation("Adds student to the database")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Student added"),
@@ -92,7 +93,7 @@ public class StudentRestService {
 
     @PUT
     @Path("/{id}")
-    @JWTTokenNeeded
+//    @JWTTokenNeeded
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation("Updates student with given id")
@@ -111,7 +112,7 @@ public class StudentRestService {
 
     @DELETE
     @Path("/{id}")
-    @JWTTokenNeeded
+//    @JWTTokenNeeded
     @ApiOperation("Updates student with given id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Student deleted"),
@@ -165,6 +166,14 @@ public class StudentRestService {
             var newStudent = studentBuilder.build();
             return Response.status(Response.Status.OK).entity(newStudent).build();
         }
+    }
+
+    @POST
+    @Path("/defaultData")
+    @ApiOperation("Populates database with default data.")
+    public Response populateDatabaseWithDefaultData(){
+        myDAO.populateListWithDefaultData();
+        return Response.status(Response.Status.OK).build();
     }
 
 }

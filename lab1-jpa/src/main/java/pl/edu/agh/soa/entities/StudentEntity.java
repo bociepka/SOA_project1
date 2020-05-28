@@ -13,7 +13,7 @@ public class StudentEntity {
     private String name;
 
     @Id
-    @Column
+    @Column(name = "studentID")
     private int id;
 
     @Column
@@ -22,9 +22,10 @@ public class StudentEntity {
     @Column
     private String avatarPath = "defaultAvatar.jpg";
 
-
-    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "students_enrollments",
+            joinColumns = {@JoinColumn(name = "studentID")},
+            inverseJoinColumns = {@JoinColumn(name = "subjectID")})
     private Set<CourseEntity> courses;
 
     public String getName() {

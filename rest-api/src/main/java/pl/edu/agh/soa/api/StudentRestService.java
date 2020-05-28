@@ -13,7 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Path("/students")
@@ -39,17 +41,19 @@ public class StudentRestService {
             @QueryParam("age") int age,
             @QueryParam("course") List<String> courses
     ) {
+        Map<String, String> params = new HashMap<>();
         List<Student> resultList = myDAO.getAllStudents();
         if (name != null)
-            resultList = resultList.stream().filter(student -> student.getName().equals(name)).
-                    collect(Collectors.toList());
+            params.put("name", name);
         if (age != 0)
-            resultList = resultList.stream().filter(student -> student.getAge() == age).
-                    collect(Collectors.toList());
+            params.put("age",String.valueOf(age));
+
         if (courses != null)
             for (String course : courses) {
-                resultList = resultList.stream().filter(student -> student.getCourses().contains(course)).collect(Collectors.toList());
+//                resultList = resultList.stream().filter(student -> student.getCourses().contains(course)).collect(Collectors.toList());
+                params.put("course",course);
             }
+        resultList = myDAO.getAllStudents(params);
         if (resultList.size() == 0)
             return Response.status(Response.Status.NOT_FOUND).entity("No students found").build();
         return Response.status(Response.Status.OK).entity(resultList).build();
@@ -113,7 +117,7 @@ public class StudentRestService {
     @DELETE
     @Path("/{id}")
 //    @JWTTokenNeeded
-    @ApiOperation("Updates student with given id")
+    @ApiOperation("Deletes student with given id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Student deleted"),
             @ApiResponse(code = 404, message = "Student with given id does not exist")

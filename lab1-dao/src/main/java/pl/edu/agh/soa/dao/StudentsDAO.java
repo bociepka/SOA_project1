@@ -1,6 +1,8 @@
 package pl.edu.agh.soa.dao;
 
 import pl.edu.agh.soa.entities.CourseEntity;
+import pl.edu.agh.soa.entities.StudentEntity_;
+import pl.edu.agh.soa.mappers.CoursesMapper;
 import pl.edu.agh.soa.mappers.StudentsMapper;
 import pl.edu.agh.soa.model.Student;
 import pl.edu.agh.soa.entities.StudentEntity;
@@ -10,9 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,23 +20,10 @@ import java.util.stream.Collectors;
 public class StudentsDAO{
 
     @PersistenceContext(unitName = "students")
-    EntityManager em;// = Persistence.createEntityManagerFactory("students").createEntityManager();
+    EntityManager em;
 
 
     public List<Student> getAllStudents() {
-//        List<Student> students = new ArrayList<>();
-//        Query q = em.createNativeQuery("SELECT (id, name, age) FROM students", StudentEntity.class);
-//        List<StudentEntity> entities = q.getResultList();
-//        for (StudentEntity entity: entities){
-//            students.add(StudentsMapper.entityToModel(entity));
-//        }
-//        Student student = new Student("Adam", 1, 21);
-//        if (em == null){
-//            student.setName("null");
-//        }
-//        students.add(student);
-//        em.createNativeQuery("SELECT name from students");
-//        return students;
         return getAllStudents(Collections.emptyMap());
     }
 
@@ -47,9 +34,22 @@ public class StudentsDAO{
         if(params.isEmpty()) {
             criteriaQuery.select(root);
         }
-//        else {
-//            criteriaQuery.select(root).where(processParameters(builder, root, params));
-//        }
+        else {
+            List<Predicate> predicates = new ArrayList<Predicate>();
+            for(Map.Entry<String, String> param : params.entrySet()){
+                if (param.getKey().equals("age")){
+                    predicates.add(builder.equal(root.get(param.getKey()), Integer.parseInt(param.getValue())));
+                }
+                else if(param.getKey().equals("course")){
+                    predicates.add(builder.equal(root.join("courses", JoinType.INNER).get("name")
+                            ,param.getValue()));
+                }
+                else{
+                    predicates.add(builder.equal(root.get(param.getKey()), param.getValue()));
+                }
+            }
+            criteriaQuery.select(root).where(predicates.toArray(new Predicate[]{}));
+        }
         TypedQuery<StudentEntity> query = em.createQuery(criteriaQuery);
         List<StudentEntity> resultList = query.getResultList();
         if(resultList == null)
@@ -59,50 +59,42 @@ public class StudentsDAO{
 
 
 
-
-    public void addStudent(Student newStudent) throws Exception {
-        em.persist(StudentsMapper.modelToEntity(newStudent));
+    public void addStudent(Student student) throws Exception {
+        StudentEntity studentEntity = StudentsMapper.modelToEntity(student);
+        studentEntity.setCourses(new HashSet<>());
+        for(String course : student.getCourses()){
+            CourseEntity courseEntity = CoursesMapper.modelToEntity(course);
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<CourseEntity> criteriaQuery = builder.createQuery(CourseEntity.class);
+            Root<CourseEntity> root = criteriaQuery.from(CourseEntity.class);
+            criteriaQuery.select(root);
+            TypedQuery<CourseEntity> query = em.createQuery(criteriaQuery);
+            List<CourseEntity> resultList = query.getResultList();
+            for (CourseEntity result : resultList){
+                if (result.getName().equals(course)){
+                    courseEntity = result;
+                }
+            }
+            studentEntity.getCourses().add(courseEntity);
+        }
+        em.persist(studentEntity);
     }
-
-
-    public List<Student> getStudentByName(String name) {
-        return null;
-    }
-
-
-    public List<Student> getStudentByAge(int age) {
-        return null;
-    }
-
 
     public Student getStudentById(int id) {
-        return null;
+        return StudentsMapper.entityToModel(em.find(StudentEntity.class, id));
     }
-
-
-    public void updateStudentById(int id, String name, int age) throws Exception {
-
-    }
-
 
     public void removeStudentById(int id) {
         StudentEntity s = em.find(StudentEntity.class, id);
         em.remove(s);
     }
 
-
-    public String addCourseToStudent(int id, String course) {
-        return null;
-    }
-
-
-    public String updateAvatar(int id, String avatarPath) {
-        return null;
-    }
-
-
-    public Student updateStudent(int id, Student student) throws Exception {
-        return null;
+    public Student updateStudent(int id, Student student){
+        removeStudentById(id);
+        try {
+            addStudent(student);
+        } catch (Exception e) {        }
+        return student;
     }
 
     public void populateListWithDefaultData() {
@@ -111,13 +103,17 @@ public class StudentsDAO{
         courses.add("Technologie Mobilne");
         courses.add("Kompilatory");
         courses.add("Interfejsy multimodalne");
-        em.persist(StudentsMapper.modelToEntity(new Student("Jacek",1, 21, courses)));
-        em.persist(StudentsMapper.modelToEntity(new Student("Kasia",2, 24, courses)));
-        em.persist(StudentsMapper.modelToEntity(new Student("Basia",3, 22, courses)));
-        em.persist(StudentsMapper.modelToEntity(new Student("Kasia", 4, 20, courses)));
-        em.persist(StudentsMapper.modelToEntity(new Student("Jacek", 5, 22, courses)));
+        ArrayList<Student> students = new ArrayList<>();
+        students.add(new Student("Jacek",1, 21, courses));
+        students.add(new Student("Kasia",2, 24, courses));
+        students.add(new Student("Basia",3, 22, courses));
+        students.add(new Student("Kasia", 4, 20, courses));
+        students.add(new Student("Jacek", 5, 22, courses));
+        for (Student student : students){
+            try {
+                addStudent(student);
+            } catch (Exception e) {}
+        }
     }
-
-
 
 }

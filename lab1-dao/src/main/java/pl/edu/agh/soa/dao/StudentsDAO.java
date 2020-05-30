@@ -89,14 +89,28 @@ public class StudentsDAO{
         em.remove(s);
     }
 
-    public Student updateStudent(int id, Student student){
-        removeStudentById(id);
-        try {
-            addStudent(student);
-        } catch (Exception e) {        }
+    public Student updateStudent(int id, Student student) {
+        StudentEntity studentEntity = StudentsMapper.modelToEntity(student);
+        studentEntity.setCourses(new HashSet<>());
+        for(String course : student.getCourses()){
+            CourseEntity courseEntity = CoursesMapper.modelToEntity(course);
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<CourseEntity> criteriaQuery = builder.createQuery(CourseEntity.class);
+            Root<CourseEntity> root = criteriaQuery.from(CourseEntity.class);
+            criteriaQuery.select(root);
+            TypedQuery<CourseEntity> query = em.createQuery(criteriaQuery);
+            List<CourseEntity> resultList = query.getResultList();
+            for (CourseEntity result : resultList){
+                if (result.getName().equals(course)){
+                    courseEntity = result;
+                }
+            }
+            studentEntity.getCourses().add(courseEntity);
+        }
+        studentEntity.setId(id);
+        em.merge(studentEntity);
         return student;
     }
-
     public void populateListWithDefaultData() {
         ArrayList<String> courses = new ArrayList<>();
         courses.add("SOA");

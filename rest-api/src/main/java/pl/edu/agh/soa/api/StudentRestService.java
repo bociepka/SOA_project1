@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Path("/students")
+@Path("/")
 @Api(value = "Students API")
 public class StudentRestService {
 
@@ -28,7 +28,7 @@ public class StudentRestService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/")
+    @Path("/students")
     @ApiOperation("Returns list of all students")
     @ApiResponses({
             @ApiResponse(code = 404, message = "No students found"),
@@ -50,7 +50,6 @@ public class StudentRestService {
 
         if (courses != null)
             for (String course : courses) {
-//                resultList = resultList.stream().filter(student -> student.getCourses().contains(course)).collect(Collectors.toList());
                 params.put("course",course);
             }
         resultList = myDAO.getAllStudents(params);
@@ -61,7 +60,7 @@ public class StudentRestService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}")
+    @Path("/students/{id}")
     @ApiOperation("Returns student with given ID")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Student found"),
@@ -76,7 +75,7 @@ public class StudentRestService {
     }
 
     @POST
-    @Path("/")
+    @Path("/students/")
 //    @JWTTokenNeeded
     @ApiOperation("Adds student to the database")
     @ApiResponses({
@@ -96,7 +95,7 @@ public class StudentRestService {
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/students/{id}")
 //    @JWTTokenNeeded
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -115,7 +114,7 @@ public class StudentRestService {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/students/{id}")
 //    @JWTTokenNeeded
     @ApiOperation("Deletes student with given id")
     @ApiResponses({
@@ -129,7 +128,7 @@ public class StudentRestService {
 
     @GET
     @Produces("image/jpeg")
-    @Path("/{id}/avatar")
+    @Path("/students/{id}/avatar")
     @ApiOperation("Returns avatar of student with given ID")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Student found, avatar returned"),
@@ -154,7 +153,7 @@ public class StudentRestService {
 
     @GET
     @Produces("application/protobuf")
-    @Path("/{id}/protobuf")
+    @Path("/students/{id}/protobuf")
     @ApiOperation("Returns student with given ID (in ProtoBuf)")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Student found"),
@@ -173,11 +172,19 @@ public class StudentRestService {
     }
 
     @POST
-    @Path("/defaultData")
+    @Path("/students/defaultData")
     @ApiOperation("Populates database with default data.")
     public Response populateDatabaseWithDefaultData(){
         myDAO.populateListWithDefaultData();
         return Response.status(Response.Status.OK).build();
     }
+
+
+//    @GET
+//    @Path("/faculties")
+//    @ApiOperation("Get data about all faculties")
+//    public Response getAllFaculties(){
+//
+//    }
 
 }

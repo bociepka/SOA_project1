@@ -22,11 +22,23 @@ public class StudentEntity {
     @Column
     private String avatarPath = "defaultAvatar.jpg";
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "students_enrollments",
             joinColumns = {@JoinColumn(name = "studentID")},
             inverseJoinColumns = {@JoinColumn(name = "subjectID")})
     private Set<CourseEntity> courses;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private FacultyEntity faculty;
+
+
+    public FacultyEntity getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(FacultyEntity faculty) {
+        this.faculty = faculty;
+    }
 
     public String getName() {
         return name;

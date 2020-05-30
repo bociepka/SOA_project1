@@ -1,6 +1,5 @@
 package pl.edu.agh.soa.mappers;
 
-import pl.edu.agh.soa.dao.CoursesDAO;
 import pl.edu.agh.soa.entities.CourseEntity;
 import pl.edu.agh.soa.entities.StudentEntity;
 import pl.edu.agh.soa.model.Student;
@@ -18,6 +17,7 @@ public class StudentsMapper {
         entity.setName(student.getName());
         entity.setAvatarPath(entity.getAvatarPath());
         entity.setId(student.getId());
+        entity.setFaculty(FacultiesMapper.modelToEntity(student.getFaculty()));
         for (String course : student.getCourses()) {
             courses.add(CoursesMapper.modelToEntity(course));
         }
@@ -32,6 +32,7 @@ public class StudentsMapper {
         student.setName(entity.getName());
         student.setId(entity.getId());
         student.setAvatarPath(entity.getAvatarPath());
+        student.setFaculty(FacultiesMapper.entityToModel(entity.getFaculty()));
         for (CourseEntity course: entity.getCourses()){
             courses.add(course.getName());
         }

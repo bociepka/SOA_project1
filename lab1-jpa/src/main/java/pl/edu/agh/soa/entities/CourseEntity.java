@@ -21,6 +21,13 @@ public class CourseEntity {
     @ManyToMany(mappedBy="courses")
     private Set<StudentEntity> students;
 
+    public Set<StudentEntity> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<StudentEntity> students) {
+        this.students = students;
+    }
 
     public int getId() {
         return id;

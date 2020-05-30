@@ -1,9 +1,13 @@
 package pl.edu.agh.soa.dao;
 
 import pl.edu.agh.soa.entities.CourseEntity;
+import pl.edu.agh.soa.entities.FacultyEntity;
 import pl.edu.agh.soa.entities.StudentEntity_;
 import pl.edu.agh.soa.mappers.CoursesMapper;
+import pl.edu.agh.soa.mappers.FacultiesMapper;
 import pl.edu.agh.soa.mappers.StudentsMapper;
+import pl.edu.agh.soa.model.Dean;
+import pl.edu.agh.soa.model.Faculty;
 import pl.edu.agh.soa.model.Student;
 import pl.edu.agh.soa.entities.StudentEntity;
 
@@ -77,6 +81,23 @@ public class StudentsDAO{
             }
             studentEntity.getCourses().add(courseEntity);
         }
+
+        if (student.getFaculty() != null){
+            FacultyEntity facultyEntity = FacultiesMapper.modelToEntity(student.getFaculty());
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<FacultyEntity> criteriaQuery = builder.createQuery(FacultyEntity.class);
+            Root<FacultyEntity> root = criteriaQuery.from(FacultyEntity.class);
+            criteriaQuery.select(root);
+            TypedQuery<FacultyEntity> query = em.createQuery(criteriaQuery);
+            List<FacultyEntity> resultList = query.getResultList();
+            for (FacultyEntity result : resultList){
+                if (result.getName().equals(student.getFaculty().getName())){
+                    facultyEntity = result;
+                }
+            }
+            studentEntity.setFaculty(facultyEntity);
+        }
+
         em.persist(studentEntity);
     }
 
@@ -113,16 +134,18 @@ public class StudentsDAO{
     }
     public void populateListWithDefaultData() {
         ArrayList<String> courses = new ArrayList<>();
+        Dean dean = new Dean("prof. dr hab. inż.", "Jan Nowak");
+        Faculty faculty = new Faculty("EAIiIB", dean);
         courses.add("SOA");
         courses.add("Technologie Mobilne");
         courses.add("Kompilatory");
         courses.add("Interfejsy multimodalne");
         ArrayList<Student> students = new ArrayList<>();
-        students.add(new Student("Jacek",1, 21, courses));
-        students.add(new Student("Kasia",2, 24, courses));
-        students.add(new Student("Basia",3, 22, courses));
-        students.add(new Student("Kasia", 4, 20, courses));
-        students.add(new Student("Jacek", 5, 22, courses));
+        students.add(new Student("Jacek",1, 21, courses, faculty));
+        students.add(new Student("Kasia",2, 24, courses, faculty));
+        students.add(new Student("Basia",3, 22, courses, faculty));
+        students.add(new Student("Kasia", 4, 20, courses, faculty));
+        students.add(new Student("Jacek", 5, 22, courses, faculty));
         for (Student student : students){
             try {
                 addStudent(student);

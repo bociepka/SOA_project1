@@ -1,12 +1,17 @@
 package pl.edu.agh.soa.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-
-@XmlType(propOrder={"id","name","age","avatarPath","courses"})
+//@JsonIgnoreProperties(ignoreUnknown = true)
+@XmlType(propOrder={"id","name","age","avatarPath","courses", "faculty"})
 public class Student {
 
     private String name;
@@ -14,6 +19,7 @@ public class Student {
     private int age;
     private String avatarPath = "defaultAvatar.jpg";
     private List<String> courses;
+    private Faculty faculty;
 
 
     public Student() {
@@ -27,6 +33,14 @@ public class Student {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Student(String name, int id, int age, List<String> courses, Faculty faculty) {
+        this.name = name;
+        this.id = id;
+        this.age = age;
+        this.courses = courses;
+        this.faculty = faculty;
     }
 
     public Student(String name, int id, int age, List<String> courses) {
@@ -88,9 +102,17 @@ public class Student {
         if (this.getCourses() != null){
             result += this.getCourses();
         }
-//        else{
-//            result += "";
-//        }
+        result += ", " + this.getFaculty().getName() + "(dziekan - " + this.getFaculty().getDean().getDegree() + " " + this.getFaculty().getDean().getName() + ")";
         return result;
+    }
+
+//    @JsonIgnore
+//    @org.codehaus.jackson.annotate.JsonIgnore
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 }

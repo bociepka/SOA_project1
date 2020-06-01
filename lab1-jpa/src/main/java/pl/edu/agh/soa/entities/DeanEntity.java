@@ -1,14 +1,13 @@
 package pl.edu.agh.soa.entities;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "deans")
 public class DeanEntity {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
 

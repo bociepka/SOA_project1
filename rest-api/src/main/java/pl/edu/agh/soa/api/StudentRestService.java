@@ -2,7 +2,9 @@ package pl.edu.agh.soa.api;
 
 import io.swagger.annotations.*;
 import pl.edu.agh.soa.auth.JWTTokenNeeded;
+import pl.edu.agh.soa.dao.FacultyDAO;
 import pl.edu.agh.soa.dao.StudentsDAO;
+import pl.edu.agh.soa.model.Faculty;
 import pl.edu.agh.soa.model.Student;
 import pl.edu.agh.soa.model.StudentProto;
 import pl.edu.agh.soa.dao.StudentsInMemoryDAO;
@@ -25,6 +27,8 @@ public class StudentRestService {
 //    private StudentsDAOInterface myDAO = new StudentsInMemoryDAO().populateListWithDefaultData();
     @EJB
     StudentsDAO myDAO;
+    @EJB
+    FacultyDAO facultyDAO;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -115,7 +119,7 @@ public class StudentRestService {
 
     @DELETE
     @Path("/students/{id}")
-//    @JWTTokenNeeded
+    @JWTTokenNeeded
     @ApiOperation("Deletes student with given id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Student deleted"),
@@ -180,11 +184,14 @@ public class StudentRestService {
     }
 
 
-//    @GET
-//    @Path("/faculties")
-//    @ApiOperation("Get data about all faculties")
-//    public Response getAllFaculties(){
-//
-//    }
+    @GET
+    @Path("/faculties")
+    @ApiOperation("Get data about all faculties")
+    public Response getAllFaculties(){
+        List<Faculty> resultList = facultyDAO.getAllFaculties();
+        if (resultList.size() == 0)
+            return Response.status(Response.Status.NOT_FOUND).entity("No faculties found").build();
+        return Response.status(Response.Status.OK).entity(resultList).build();
+    }
 
 }

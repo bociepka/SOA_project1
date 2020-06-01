@@ -15,7 +15,7 @@ public class StudentsMapper {
         Set<CourseEntity> courses = new java.util.HashSet<>();
         entity.setAge(student.getAge());
         entity.setName(student.getName());
-        entity.setAvatarPath(entity.getAvatarPath());
+        entity.setAvatarPath(student.getAvatarPath());
         entity.setId(student.getId());
         entity.setFaculty(FacultiesMapper.modelToEntity(student.getFaculty()));
         for (String course : student.getCourses()) {

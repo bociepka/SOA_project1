@@ -25,6 +25,22 @@ public class Student {
         this.age = age;
     }
 
+    public Student(String name, int age, List<String> courses, Faculty faculty) {
+        this.name = name;
+        this.age = age;
+        this.courses = courses;
+        this.faculty = faculty;
+    }
+
+    public Student(String name, int age, String avatarPath, List<String> courses, Faculty faculty) {
+        this.name = name;
+        this.age = age;
+        this.avatarPath = avatarPath;
+        this.courses = courses;
+        this.faculty = faculty;
+    }
+
+
     public void setId(int id) {
         this.id = id;
     }

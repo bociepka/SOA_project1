@@ -4,6 +4,8 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.specimpl.MultivaluedMapImpl;
+import pl.edu.agh.soa.model.Dean;
+import pl.edu.agh.soa.model.Faculty;
 import pl.edu.agh.soa.model.Student;
 import pl.edu.agh.soa.model.StudentProto;
 import pl.edu.agh.soa.protobuf.StudentMessageWriter;
@@ -160,9 +162,11 @@ public class RESTClient {
 
         //adding new student
         List<String> courses = new ArrayList<>();
-        courses.add("SOA");
+        Dean dean = new Dean("dr hab. inż.", "Adam Kowalski");
+        Faculty faculty = new Faculty("WIEiT", dean);
+        courses.add("Systemy operacyjne");
         courses.add("Kompilatory");
-        Student student = new Student("Jacek", 6, 99, "defaultAvatar.jpg", courses);
+        Student student = new Student("Jacek", 99,"defaultAvatar2.jpg", courses, faculty);
         consumer.addStudent(student);
 
         //printing with filtering
@@ -179,7 +183,7 @@ public class RESTClient {
 
         //displaying avatar
         System.out.println("\n");
-        consumer.displayAvatar(3);
+        consumer.displayAvatar(6);
 
         //deleting previously added student
         System.out.println("\n");

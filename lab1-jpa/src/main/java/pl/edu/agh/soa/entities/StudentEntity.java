@@ -12,6 +12,7 @@ public class StudentEntity {
     @Column
     private String name;
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "studentID")
     private int id;
@@ -52,7 +53,7 @@ public class StudentEntity {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

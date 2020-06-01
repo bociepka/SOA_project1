@@ -63,7 +63,7 @@ public class StudentsDAO{
 
 
 
-    public void addStudent(Student student) throws Exception {
+    public void addStudent(Student student){
         StudentEntity studentEntity = StudentsMapper.modelToEntity(student);
         studentEntity.setCourses(new HashSet<>());
         for(String course : student.getCourses()){
@@ -97,7 +97,7 @@ public class StudentsDAO{
             }
             studentEntity.setFaculty(facultyEntity);
         }
-
+//        studentEntity.setName((String.valueOf(studentEntity.getId())));
         em.persist(studentEntity);
     }
 
@@ -141,16 +141,15 @@ public class StudentsDAO{
         courses.add("Kompilatory");
         courses.add("Interfejsy multimodalne");
         ArrayList<Student> students = new ArrayList<>();
-        students.add(new Student("Jacek",1, 21, courses, faculty));
-        students.add(new Student("Kasia",2, 24, courses, faculty));
-        students.add(new Student("Basia",3, 22, courses, faculty));
-        students.add(new Student("Kasia", 4, 20, courses, faculty));
-        students.add(new Student("Jacek", 5, 22, courses, faculty));
+        students.add(new Student("Jacek",21, courses, faculty));
+        students.add(new Student("Kasia",24, courses, faculty));
+        students.add(new Student("Basia",22, courses, faculty));
+        students.add(new Student("Kasia",20, courses, faculty));
+        students.add(new Student("Jacek",22, courses, faculty));
         for (Student student : students){
-            try {
-                addStudent(student);
-            } catch (Exception e) {}
+            addStudent(student);
         }
+//        addStudent(new Student("A", 1, 21, courses, faculty));
     }
 
 }

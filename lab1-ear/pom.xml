@@ -25,7 +25,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>bociepka-zad2</artifactId>
+    <artifactId>bociepka-zad3</artifactId>
     <packaging>ear</packaging>
 
     <name>lab1: EAR Module</name>
